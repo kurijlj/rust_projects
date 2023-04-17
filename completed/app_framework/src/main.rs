@@ -49,6 +49,27 @@
 // ============================================================================
 // Used libraries section
 // ============================================================================
+use const_format::formatcp;
+use clap::{Command};
+
+
+// ============================================================================
+// Global constants section
+// ============================================================================
+
+const APP_NAME:     &str = "app_framework";
+const VERSION:      &str = "0.1.0";
+const YEAR:         &str = "yyyy";
+const AUTHOR:       &str = "Ljubomir Kurij";
+const AUTHOR_EMAIL: &str = "ljubomir_kurij@protonmail.com";
+const APP_ABOUT:    &str = "\
+Framework for developing command line applications using \'clap\' command\n\
+line argument parsing library.\n\nMandatory arguments to long options are \
+mandatory for short options too.";
+const APP_LICENSE:  &str = "\
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\
+This is free software: you are free to change and redistribute it.\n\
+There is NO WARRANTY, to the extent permitted by law.\n";
 
 
 // ============================================================================
@@ -56,66 +77,34 @@
 // ============================================================================
 
 fn main() {
-    println!(
-        "{} {} {} by {} <{}>\n",
-        AppAbout::name(),
-        AppAbout::version(),
-        AppAbout::year(),
-        AppAbout::author(),
-        AppAbout::author_email()
-        );
-    println!("{}", AppAbout::doc());
-    println!("{}", AppAbout::license());
+    let matches = Command::new(APP_NAME)
+        .version(VERSION)
+        .author(formatcp!("{} <{}>", AUTHOR, AUTHOR_EMAIL))
+        .about(APP_ABOUT)
+        .after_help(formatcp!("Report bugs to <{AUTHOR_EMAIL}>"))
+        .long_version(
+            formatcp!(
+                "{} Copyright (C) {} {}\n{}",
+                VERSION,
+                YEAR,
+                AUTHOR,
+                APP_LICENSE
+                )
+            )
+        .get_matches();
+
+    println!("{}: Hello, world!", APP_NAME);
+
 }
 
 
 // ============================================================================
 // User defined types section
 // ============================================================================
-struct AppAbout {
-}
-
-impl AppAbout {
-    #[inline]
-    pub fn name() -> &'static str {
-        return "app_name";
-    }
-
-    pub fn version() -> &'static str {
-        return "0.1.0";
-    }
-
-    pub fn year() -> &'static str {
-        return "yyyy";
-    }
-
-    pub fn author() -> &'static str {
-        return "Ljubomir Kurij";
-    }
-
-    pub fn author_email() -> &'static str {
-        return "ljubomir_kurij@protonmail.com";
-    }
-
-    pub fn doc() -> &'static str {
-        return "Framework for developing command line applications using \
-            \'clap\' command\nline argument parsing library.\n\nMandatory \
-            arguments to long options are mandatory for short options too.\n";
-
-    }
-
-    pub fn license() -> &'static str {
-        return "License GPLv3+: GNU GPL version 3 or later \
-            <http://gnu.org/licenses/gpl.html>\nThis is free software: you are \
-            free to change and redistribute it.\nThere is NO WARRANTY, to the \
-            extent permitted by law.\n";
-
-    }
-
-}
 
 
 // ============================================================================
 // User defined functions section
 // ============================================================================
+
 
